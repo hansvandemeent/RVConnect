@@ -1,0 +1,67 @@
+alias: KPN M2M Webhook
+description: ""
+trigger:
+  - platform: webhook
+    allowed_methods:
+      - POST
+      - PUT
+    local_only: false
+    webhook_id: "fill-me-in"
+condition: []
+action:
+  - service: input_text.set_value
+    data:
+      value: "{{trigger.json}}"
+    target:
+      entity_id: input_text.kpn_senml_payload_payload
+    enabled: true
+  - service: input_number.set_value
+    data:
+      value: >-
+        {% if trigger.json[0].v | int | bitwise_and(1) != 0 %}1{% else %}0{%
+        endif %}
+    target:
+      entity_id: input_boolean.rv_gps_fix
+  - service: input_number.set_value
+    data:
+      value: >-
+        {% if trigger.json[0].v | int | bitwise_and(2) != 0 %}1{% else %}0{%
+        endif %}
+    target:
+      entity_id: input_boolean.rv_motion_detected
+  - service: input_number.set_value
+    data:
+      value: "{{trigger.json[1].v | round(1)}}"
+    target:
+      entity_id: input_number.rv_temperature_2
+  - service: input_number.set_value
+    data:
+      value: "{{trigger.json[2].v}}"
+    target:
+      entity_id: input_number.rv_humidity_2
+  - service: device_tracker.see
+    data:
+      source_type: gps
+      dev_id: rv_gps
+      gps:
+        - "{{trigger.json[3].v | int(base=10) / 10000000}}"
+        - "{{trigger.json[4].v | int(base=10) / 10000000}}"
+  - service: input_number.set_value
+    data:
+      value: "{{trigger.json[5].v | round(2)}}"
+    target:
+      entity_id: input_number.rv_battery1
+  - service: input_number.set_value
+    data:
+      value: "{{trigger.json[6].v | round(2)}}"
+    target:
+      entity_id: input_number.rv_battery3
+  - service: input_text.set_value
+    data:
+      value: >-
+        {{state_attr("sensor.locatie", "street")}}
+        {{state_attr("sensor.locatie", "street_number")}}
+        {{state_attr("sensor.locatie", "city")}}
+    target:
+      entity_id: input_text.rv_adres
+mode: single

@@ -49,10 +49,11 @@ LTE has a full coverage in the Netherlands and a large part of Western Europe.
 ### The *RVConnect* application
 Developed in C++ on PlatformIO.
 Debugging can be done with a Segger J-Link, but most of the time I use my trace software.
+![screenshot](docs/png/trace.png)
+
 
 ### Hardware
-Hardware is a Sodaq SARA development board. However this board is no longer available.
-Plan is to redo this project with Nordic Thingy:91
+Hardware is a Sodaq SARA development board. However this board is no longer available Plan is to redo this project with Nordic Thingy:91
 
 ### *IoT Portal*
 First test was with HologramIO. However HologramIO had a large overhead of management data (700 bytes on a 50 bytes message). Advice was to collect multiple measurements and send them in 1 package. But that kills the tracking capability of the application.

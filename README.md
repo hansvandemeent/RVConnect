@@ -2,8 +2,12 @@
 
 ### Making a Smart (Mobile) Home
 
-Goal is to connect to a Recreational Vehicle via a LTE or LoRa portal to Smart Home.
-This to get information about the location, movement, status of batteries and environment.
+The goal is to connect a recreational vehicle to Smart Home via an LTE or LoRa portal.
+This is to obtain information about location, movement, battery status and surroundings.
+
+** ** Note: This is not a certified SCM Track and Trace system as required by insurance.
+
+** ** Note: Work in progress, basic functions working. 
 
 ![screenshot](docs/png/RVConnect%20map.png)
 
@@ -31,8 +35,6 @@ User actions are not executed immediately but as soon as the app wakes up from D
 
 If tests show that the app can be continuously online (energy and data usage), then this is an option.
 
-Note: This is not a certified SCM Track and Trace system as required by insurance.
-
 The portal used is [KPN Things platform](https://docs.kpnthings.com/dm/), a LTE portal using SenML data format.
 
 Sensor data is transferred via a webhook to Home Assistant.
@@ -55,7 +57,17 @@ Plan is to redo this project with Nordic Thingy:91
 ### Portal
 First test was with HologramIO. However HologramIO had a large overhead of management data (700 bytes on a 50 bytes message). Advice was to collect multiple measurements and send them in 1 package. But that kills the tracking capability of the application.
 
+Choice is now [KPN Things platform](https://docs.kpnthings.com/dm/).
+Data from the RVConnect app is forwarded to the Home Assistant webhook.
+A copy is sent to [webhook.site](https://webhook.site) for testing.
+
 ### Home Assistant Smart Home
-I use Home Assistant already for a long time at home. It handles my lights, heating, solar panels, screens, alarm system, multi-media.
+I use [Home Assistant](https://www.home-assistant.io) already for a long time at home. It handles my lights, heating, solar panels, screens, air quality, alarm system, multi-media.
 So it was a logical choise for my mobile home.
+
+Temperature, humidity and location checks are performed in Home Assistant. These have not yet been implemented in the current version.
+
+![screenshot](docs/png/HA.png)
+
+
 
